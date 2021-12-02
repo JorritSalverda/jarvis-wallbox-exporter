@@ -5,7 +5,6 @@ metadata:
   labels:
     {{- include "jarvis-wallbox-exporter.labels" . | nindent 4 }}
 data:
-  timeout-seconds: {{ .Values.config.timeoutSeconds | quote }}
   bq-enable: {{ .Values.config.bqEnable | quote }}
   bq-init: {{ .Values.config.bqInit | quote }}
   bq-project-id: {{ .Values.config.bqProjectID | quote }}

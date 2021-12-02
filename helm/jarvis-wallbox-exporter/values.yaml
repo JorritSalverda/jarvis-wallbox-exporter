@@ -10,7 +10,6 @@ cronjob:
   ttlSecondsAfterFinished: 3600
 
 config:
-  timeoutSeconds: 10
   bqEnable: false
   bqInit: true
   bqProjectID: gcp-project-id

@@ -1,0 +1,74 @@
+{
+    "result": {
+        "groups": [
+            {
+                "id": 15,
+                "parent": null,
+                "name": "Family",
+                "profile": {
+                    "id": 4,
+                    "name": "super-admin"
+                },
+                "currency": 1,
+                "energyPrice": 0.2,
+                "chargers": [
+                    {
+                        "id": 304,
+                        "uid": "01FGNC8YDYPN5VWCC9FCD4W87J",
+                        "access": true,
+                        "name": "PulsarPlus SN 123456",
+                        "status": 161,
+                        "statusDescription": "Offline",
+                        "chargerType": "PulsarPlus",
+                        "ocppReady": "ocpp_1.6j",
+                        "ocppConnectionStatus": 1,
+                        "connectionType": "wifi",
+                        "locked": 0,
+                        "maxChargingCurrent": null,
+                        "addedEnergy": 0.004,
+                        "chargingPower": 0,
+                        "chargingTime": null,
+                        "energyUnit": "kWh",
+                        "powerUnit": "kW",
+                        "image": "https:\/\/api.wall-box.com\/uploads\/PLP1-2-3-4-5-002-A.png",
+                        "lastConnection": 1638448237,
+                        "lastSync": null,
+                        "wifiSignal": 75,
+                        "chargerLoadType": "Private",
+                        "currency": 1,
+                        "energyPrice": 0.24,
+                        "energyCost": {
+                            "value": 0.24,
+                            "inheritedGroupId": null
+                        },
+                        "remoteAction": 0,
+                        "software": {
+                            "updateAvailable": false,
+                            "currentVersion": "5.3.20",
+                            "latestVersion": "5.3.19"
+                        },
+                        "midStatus": 0,
+                        "country": "NL",
+                        "state": null
+                    }
+                ],
+                "payments_account": false,
+                "plan": {
+                    "id": 1,
+                    "name": "Basic",
+                    "description": null,
+                    "features": [
+                        "DEFAULT_FEATURE",
+                        "POWER_BOOST",
+                        "MOBILE_CONNECTIVITY",
+                        "STATISTICS",
+                        "AUTOMATIC_REPORTING"
+                    ]
+                },
+                "billingInformation": null,
+                "customer": null,
+                "subscription": null
+            }
+        ]
+    }
+}

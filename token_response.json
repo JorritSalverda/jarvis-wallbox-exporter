@@ -1,0 +1,7 @@
+{
+    "jwt":"ABCD",
+    "user_id":1,
+    "ttl":1639745634,
+    "error":false,
+    "status":200
+}
