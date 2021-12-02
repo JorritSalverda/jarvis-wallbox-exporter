@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "jarvis-wallbox-exporter.fullname" . }}
+  labels:
+    {{- include "jarvis-wallbox-exporter.labels" . | nindent 4 }}
+data:
+  timeout-seconds: {{ .Values.config.timeoutSeconds | quote }}
+  bq-enable: {{ .Values.config.bqEnable | quote }}
+  bq-init: {{ .Values.config.bqInit | quote }}
+  bq-project-id: {{ .Values.config.bqProjectID | quote }}
+  bq-dataset: {{ .Values.config.bqDataset | quote }}
+  bq-table: {{ .Values.config.bqTable | quote }}
+  config.yaml: |
+    {{- with .Values.config.configYaml }}
+    {{- tpl . $ | nindent 4 }}
+    {{- end }}

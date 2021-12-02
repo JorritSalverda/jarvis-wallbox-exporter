@@ -1,0 +1,122 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: {{ include "jarvis-wallbox-exporter.fullname" . }}
+  labels:
+    {{- include "jarvis-wallbox-exporter.labels" . | nindent 4 }}
+spec:
+  schedule: {{ .Values.cronjob.schedule | quote }}
+  concurrencyPolicy: {{ .Values.cronjob.concurrencyPolicy }}
+  failedJobsHistoryLimit: {{ .Values.cronjob.failedJobsHistoryLimit }}
+  successfulJobsHistoryLimit: {{ .Values.cronjob.successfulJobsHistoryLimit }}
+  suspend: false
+  jobTemplate:
+    spec:
+      completions: 1
+      parallelism: 1
+      backoffLimit: 0
+      activeDeadlineSeconds: 240
+      ttlSecondsAfterFinished: {{ .Values.cronjob.ttlSecondsAfterFinished }}
+      template:
+        metadata:
+          {{- with .Values.podAnnotations }}
+          annotations:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}  
+          labels:
+            {{- include "jarvis-wallbox-exporter.labels" . | nindent 12 }}
+        spec:
+          restartPolicy: Never
+          {{- with .Values.imagePullSecrets }}
+          imagePullSecrets:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          serviceAccountName: {{ include "jarvis-wallbox-exporter.serviceAccountName" . }}
+          securityContext:
+            {{- toYaml .Values.podSecurityContext | nindent 12 }}
+          containers:
+          - name: {{ .Chart.Name }}
+            securityContext:
+              {{- toYaml .Values.securityContext | nindent 14 }}
+            image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+            imagePullPolicy: {{ .Values.image.pullPolicy }}    
+            env:
+            - name: ESTAFETTE_LOG_FORMAT
+              value: {{ .Values.logFormat }}
+            - name: TIMEOUT_SECONDS
+              valueFrom:
+                configMapKeyRef:
+                  key: timeout-seconds
+                  name: {{ include "jarvis-wallbox-exporter.fullname" . }}
+            - name: USERNAME
+              valueFrom:
+                secretKeyRef:
+                  key: username
+                  name: {{ include "jarvis-wallbox-exporter.fullname" . }}
+            - name: PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: {{ include "jarvis-wallbox-exporter.fullname" . }}
+            - name: BQ_ENABLE
+              valueFrom:
+                configMapKeyRef:
+                  key: bq-enable
+                  name: {{ include "jarvis-wallbox-exporter.fullname" . }}
+            - name: BQ_INIT
+              valueFrom:
+                configMapKeyRef:
+                  key: bq-init
+                  name: {{ include "jarvis-wallbox-exporter.fullname" . }}
+            - name: BQ_PROJECT_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "jarvis-wallbox-exporter.fullname" . }}
+                  key: bq-project-id
+            - name: BQ_DATASET
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "jarvis-wallbox-exporter.fullname" . }}
+                  key: bq-dataset
+            - name: BQ_TABLE
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "jarvis-wallbox-exporter.fullname" . }}
+                  key: bq-table
+            - name: MEASUREMENT_FILE_CONFIG_MAP_NAME
+              value: {{ include "jarvis-wallbox-exporter.fullname" . }}
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: /secrets/keyfile.json
+            ports:
+            - name: udp
+              containerPort: 8755
+              protocol: UDP
+            resources:
+              {{- toYaml .Values.resources | nindent 14 }}
+            volumeMounts:
+            - name: configs
+              mountPath: /configs
+            - name: secrets
+              mountPath: /secrets
+          {{- with .Values.nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.affinity }}
+          affinity:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.tolerations }}
+          tolerations:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          hostNetwork: true
+          terminationGracePeriodSeconds: 300
+          volumes:
+          - name: configs
+            configMap:
+              name: {{ include "jarvis-wallbox-exporter.fullname" . }}
+          - name: secrets
+            secret:
+              defaultMode: 420
+              secretName: {{ include "jarvis-wallbox-exporter.fullname" . }}
