@@ -4,8 +4,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends musl-tools
 RUN rustup target add x86_64-unknown-linux-musl
 COPY . .
 # add following 2 lines after initial build to speed up next builds
-# COPY --from=jsalverda/jarvis-wallbox-exporter:dlc-builder /app/target target
-# COPY --from=jsalverda/jarvis-wallbox-exporter:dlc-builder /usr/local/cargo /usr/local/cargo
+COPY --from=jsalverda/jarvis-wallbox-exporter:dlc-builder /app/target target
+COPY --from=jsalverda/jarvis-wallbox-exporter:dlc-builder /usr/local/cargo /usr/local/cargo
 RUN cargo test --release --target x86_64-unknown-linux-musl
 RUN cargo build --release --target x86_64-unknown-linux-musl
 
