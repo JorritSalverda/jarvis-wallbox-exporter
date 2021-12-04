@@ -55,6 +55,7 @@ pub struct ChargerResponse {
     pub name: String,
     pub added_energy: f64,
     pub added_green_energy: f64,
+    pub charging_power: f64,
     pub charging_time: f64,
 }
 

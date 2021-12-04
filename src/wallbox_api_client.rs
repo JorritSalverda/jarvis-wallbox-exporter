@@ -71,6 +71,16 @@ impl MeasurementClient<Config> for WallboxApiClient {
                     metric_type: MetricType::Counter,
                     value: charger_response.added_energy * 3600.0 * 1000.0,
                 });
+
+                // gauge
+                measurement.samples.push(Sample {
+                  entity_type: config.entity_type,
+                  entity_name: config.entity_name.clone(),
+                  sample_type: SampleType::ElectricityConsumption,
+                  sample_name: charger_response.name,
+                  metric_type: MetricType::Gauge,
+                  value: charger_response.charging_power * 1000.0,
+              });
             }
         }
 
