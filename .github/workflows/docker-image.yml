@@ -14,8 +14,8 @@ jobs:
       - name: Build the Docker image
         run: |
           TAG=$(echo $GITHUB_SHA | head -c7)
-          docker build --build-arg BUILDKIT_INLINE_CACHE=1 --cache-from jsalverda/jarvis-wallbox-exporter:dlc-builder --tag jsalverda/jarvis-wallbox-exporter:dlc-builder --target builder --file Dockerfile .
+          docker buildx build --build-arg BUILDKIT_INLINE_CACHE=1 --cache-from jsalverda/jarvis-wallbox-exporter:dlc-builder --tag jsalverda/jarvis-wallbox-exporter:dlc-builder --target builder --file Dockerfile .
           # docker push jsalverda/jarvis-wallbox-exporter:dlc-builder
-          docker build --build-arg BUILDKIT_INLINE_CACHE=1 --cache-from jsalverda/jarvis-wallbox-exporter:dlc-builder --cache-from jsalverda/jarvis-wallbox-exporter:dlc --tag jsalverda/jarvis-wallbox-exporter:dlc --tag jsalverda/jarvis-wallbox-exporter:$TAG --file Dockerfile .
+          docker buildx build --build-arg BUILDKIT_INLINE_CACHE=1 --cache-from jsalverda/jarvis-wallbox-exporter:dlc-builder --cache-from jsalverda/jarvis-wallbox-exporter:dlc --tag jsalverda/jarvis-wallbox-exporter:dlc --tag jsalverda/jarvis-wallbox-exporter:$TAG --file Dockerfile .
           # docker push jsalverda/jarvis-wallbox-exporter:dlc
           # docker push jsalverda/jarvis-wallbox-exporter:$TAG
