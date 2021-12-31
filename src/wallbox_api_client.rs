@@ -40,7 +40,7 @@ impl MeasurementClient<Config> for WallboxApiClient {
     fn get_measurement(
         &self,
         config: Config,
-        last_measurement: Option<Measurement>,
+        _last_measurement: Option<Measurement>,
     ) -> Result<Measurement, Box<dyn Error>> {
         println!("Reading measurement from Wallbox devices...");
 
@@ -84,12 +84,12 @@ impl MeasurementClient<Config> for WallboxApiClient {
             }
         }
 
-        match last_measurement {
-            Some(_) => {
-                // measurement.samples = self.sanitize_samples(measurement.samples, lm.samples)
-            }
-            None => {}
-        }
+        // match last_measurement {
+        //     Some(_) => {
+        //         // measurement.samples = self.sanitize_samples(measurement.samples, lm.samples)
+        //     }
+        //     None => {}
+        // }
 
         println!("Read measurement from Wallbox chargers");
 
