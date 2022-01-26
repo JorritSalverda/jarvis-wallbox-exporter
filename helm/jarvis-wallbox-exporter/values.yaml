@@ -10,18 +10,14 @@ cronjob:
   ttlSecondsAfterFinished: 3600
 
 config:
-  bqEnable: false
-  bqInit: true
-  bqProjectID: gcp-project-id
-  bqDataset: jarvis
-  bqTable: jarvis_measurements
+  natsHost: jarvis-nats
+  natsSubject: jarvis-measurements
   configYaml: |
     location: My Home
     entityType: ENTITY_TYPE_DEVICE
     entityName: Wallbox PulsarPlus
 
 secret:
-  gcpServiceAccountKeyfile: '{}'
   username: ''
   password: ''
 
